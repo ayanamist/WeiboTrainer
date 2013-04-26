@@ -399,6 +399,10 @@
         38: function () {
             // 微博中地点签到周围的图片
             return ".WB_feed .WB_feed_spec {display: none !important;}";
+        },
+        39: function () {
+            // 分组页面 建议加入该分组
+            return "#pl_relation_recommendGroupMember {display: none !important;}";
         }
     };
 
