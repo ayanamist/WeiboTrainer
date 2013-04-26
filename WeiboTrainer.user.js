@@ -24,7 +24,7 @@
             return /interactive|complete/i.test(document.readyState);
         },
         _deferQueue: [],
-        init: function() {
+        init: function () {
             var finishQueue = function () {
                     document.removeEventListener("DOMContentLoaded", listener);
                     Array.prototype.forEach.call(Utils._deferQueue, function (func) {
@@ -38,7 +38,7 @@
                 finishQueue();
             }
         },
-        deferReady: function(func) {
+        deferReady: function (func) {
             Utils._deferQueue.push(func);
         },
         makeRandomStr: function (length) {
@@ -59,13 +59,13 @@
                 node.parentNode.removeChild(node);
             }
         },
-        addNamedStyle: function(css, name) {
+        addNamedStyle: function (css, name) {
             var style = document.getElementById(name);
             if (!style) {
                 style = document.createElement("style");
                 style.type = "text/css";
                 style.id = name;
-                (document.head||document.documentElement).appendChild(style);
+                (document.head || document.documentElement).appendChild(style);
             }
             style.innerHTML = css;
         }
@@ -183,7 +183,7 @@
             var script = document.createElement("script");
             script.innerHTML = "(" + ObjProxy._delegateScript.toString() + ")('" + ObjProxy.MSG_NAME + "');";
             script.type = "text/javascript";
-            (document.head||document.documentElement).appendChild(script);
+            (document.head || document.documentElement).appendChild(script);
             script = null;
         },
         getByName: function (objName, callback) {
@@ -212,7 +212,7 @@
         },
         2: function () {
             // 时间线上面横幅广告
-            Utils.deferReady(function(){
+            Utils.deferReady(function () {
                 ObjProxy.getByName("$CONFIG.uid", function (uid) {
                     if (typeof uid !== "undefined") {
                         ObjProxy.callByName("STK.core.util.cookie.set", ["tips_" + uid, "1", {"expire": 36500}]);
@@ -280,7 +280,7 @@
         17: function () {
             // 用户页面 封面图
             // 注意把勋章移动到关注按钮上面
-            Utils.deferReady(function(){
+            Utils.deferReady(function () {
                 var pf_tags = document.querySelector("#pl_profile_hisInfo .pf_tags"),
                     pf_badge_icon = document.querySelector("#pl_profile_cover .pf_badge_icon");
                 if (pf_tags && pf_badge_icon) {
@@ -296,43 +296,66 @@
             // 用户页面 勋章
             return ".pf_badge_icon {display: none !important;}";
         },
-        19: function() {
+        19: function () {
             // 单条微博 推荐微博
             return "#pl_rightmod_recommblog {display: none !important;}";
         },
-        20: function() {
+        20: function () {
             // 单条微博 推荐音乐
             return "#trustPagelet_mblog_music {display: none !important;}";
         },
-        21: function() {
+        21: function () {
             // 单条微博 推荐图片
             return "#trustPagelet_mblog_photo {display: none !important;}";
         },
-        22: function() {
+        22: function () {
             // 单条微博 推荐微吧
             return "#trustPagelet_mblog_weiba {display: none !important;}";
         },
-        23: function() {
+        23: function () {
             // 单条微博 推荐微刊
             return "#trustPagelet_mblog_weikan {display: none !important;}";
         },
-        24: function() {
+        24: function () {
             // 单条微博 热门微博
             return "#trustPagelet_mblog_hotmblog {display: none !important;}";
         },
-        25: function() {
+        25: function () {
             // 单条微博 微博相关人
             return "#pl_rightmod_recomperson {display: none !important;}";
         },
-        26: function() {
+        26: function () {
             // 单条微博 推荐话题
             return "#trustPagelet_mblog_topic {display: none !important;}";
         },
-        27: function() {
+        27: function () {
             // 单条微博 整个右边栏
             return ".B_onefeed .WB_feed .feed_repeat .input textarea {width: 99% !important}\
-                  .W_main_c {width: auto !important;} \
+                  .B_onefeed .W_main_c {width: auto !important;} \
                   .B_onefeed .W_main_2r {display: none !important;}";
+        },
+        28: function () {
+            // 用户页面 整个右边栏
+            return ".W_profile_main .W_main_c {width: auto !important;} \
+                  .W_profile_main .W_main_2r {display: none !important;}";
+        },
+        29: function () {
+            // 整个底部链接
+            return ".global_footer {display: none !important;}";
+        },
+        30: function () {
+            // 两栏
+            Utils.deferReady(function () {
+                var WB_left_nav = document.querySelector(".W_main_l .WB_left_nav"),
+                    Box_right = document.querySelector("#Box_right"),
+                    pl_business_enterpriseWeiboNew = document.querySelector("#pl_business_enterpriseWeiboNew");
+                if (WB_left_nav && Box_right && pl_business_enterpriseWeiboNew) {
+                    Box_right.insertBefore(WB_left_nav, pl_business_enterpriseWeiboNew);
+                }
+            });
+            return ".W_main_l {display: none !important;}\
+                  .W_main {width: 830px !important; background-position-x: -150px;} \
+                  a.W_gotop {margin-left: 415px !important;}"
         }
     };
 
@@ -341,7 +364,7 @@
 
     var cssList = [],
         styleName = Utils.makeRandomStr(8);
-    Array.prototype.forEach.call(Object.keys(UI), function(k) {
+    Array.prototype.forEach.call(Object.keys(UI), function (k) {
         cssList.push(UI[k]());
     });
     Utils.addNamedStyle(cssList.join(""), styleName);
