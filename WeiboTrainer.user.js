@@ -7,7 +7,6 @@
 // @match http://account.weibo.com/*
 // @version 1.0
 // @run-at document-start
-// @grant GM_addStyle
 // ==/UserScript==
 
 (function (window) {
@@ -16,14 +15,28 @@
         CustomEvent = window.CustomEvent,
         Math = window.Math;
 
-    var makeRandomStr = function (length) {
-        var possibleChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",
-            text = "",
-            i = 0;
-        for (; i < length; i += 1) {
-            text += possibleChars.charAt(Math.floor(Math.random() * possibleChars.length));
+    var Utils = {
+        isReady: function () {
+            return /interactive|complete/i.test(document.readyState);
+        },
+        makeRandomStr: function (length) {
+            var possibleChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",
+                text = "",
+                i = 0;
+            for (; i < length; i += 1) {
+                text += possibleChars.charAt(Math.floor(Math.random() * possibleChars.length));
+            }
+            return text;
+        },
+        removeNodeBySelector: function (selector) {
+            var nodes = document.querySelectorAll(selector),
+                i = nodes.length - 1,
+                node;
+            for (; i >= 0; i -= 1) {
+                node = nodes[i];
+                node.parentNode.removeChild(node);
+            }
         }
-        return text;
     };
 
     var NamePool = function (prefix) {
@@ -52,9 +65,10 @@
         }
     };
     var ObjProxy = {
-        MSG_NAME: "wbtr_" + makeRandomStr(8),
-        callbackNumPool: new NamePool("wbtrcb_"),
-        delegateScript: function (msgName) {
+        MSG_NAME: "wbtr_" + Utils.makeRandomStr(8),
+        _callbackNumPool: new NamePool("wbtrcb_"),
+        _readyQueue: [],
+        _delegateScript: function (msgName) {
             document.addEventListener(msgName, function (evt) {
                 var objName = evt.detail.name,
                     callbackName = evt.detail.callbackName,
@@ -70,7 +84,6 @@
                         tmpObj = tmpObj[names[i]];
                     }
                     else {
-                        error = names.slice(0, i).join(".") + " does not exist!";
                         break
                     }
                 }
@@ -92,6 +105,9 @@
                         console.log(objName, value);
                     }
                 }
+                else {
+                    error = names.slice(0, i).join(".") + " does not exist!";
+                }
 
                 if (typeof callbackName !== "undefined") {
                     var event = new CustomEvent(callbackName, {
@@ -106,18 +122,22 @@
                 }
             }, false);
         },
-        remoteExecute: function (detail, callback) {
+        _remoteExecute: function (detail, callback) {
+            if (!Utils.isReady()) {
+                // Wait until script has been executed.
+                ObjProxy._readyQueue.push([detail, callback]);
+                return;
+            }
             if (typeof callback !== "undefined") {
-                detail.callbackName = ObjProxy.callbackNumPool.borrow();
+                detail.callbackName = ObjProxy._callbackNumPool.borrow();
                 var listener = document.addEventListener(detail.callbackName, function (evt) {
                     document.removeEventListener(detail.callbackName, listener);
-                    console.log(evt.detail);
-                    ObjProxy.callbackNumPool.pay(detail.callbackName);
-                    if (detail.error !== null) {
-                        callback(evt.detail.value);
+                    ObjProxy._callbackNumPool.pay(detail.callbackName);
+                    if (evt.detail.error !== null) {
+                        console.error(evt.detail.error);
                     }
                     else {
-                        console.error(detail.error);
+                        callback(evt.detail.value);
                     }
                 }, false);
             }
@@ -128,8 +148,26 @@
             });
             document.dispatchEvent(event);
         },
+        init: function () {
+            var script = document.createElement("script");
+            script.innerHTML = "(" + ObjProxy._delegateScript.toString() + ")('" + ObjProxy.MSG_NAME + "');";
+            script.type = "text/javascript";
+            document.getElementsByTagName("head")[0].appendChild(script);
+            script = null;
+            var finishQueue = function () {
+                    document.removeEventListener("DOMContentLoaded", listener);
+                    Array.prototype.forEach.call(ObjProxy._readyQueue, function (job) {
+                        ObjProxy._remoteExecute.apply(null, job);
+                    });
+                },
+                listener = document.addEventListener("DOMContentLoaded", finishQueue, false);
+
+            if (Utils.isReady()) {
+                finishQueue();
+            }
+        },
         getByName: function (objName, callback) {
-            ObjProxy.remoteExecute({
+            ObjProxy._remoteExecute({
                 "name": objName
             }, callback);
         },
@@ -137,21 +175,10 @@
             if (!Array.isArray(args)) {
                 args = typeof args === "undefined" ? [] : [args];
             }
-            ObjProxy.remoteExecute({
+            ObjProxy._remoteExecute({
                 "name": funcName,
                 "args": args
             }, callback);
-        }
-    };
-    var Utils = {
-        removeNodeBySelector: function (selector) {
-            var nodes = document.querySelectorAll(selector),
-                i = nodes.length - 1,
-                node;
-            for (; i >= 0; i -= 1) {
-                node = nodes[i];
-                node.parentNode.removeChild(node);
-            }
         }
     };
     var Cleaner = {
@@ -166,7 +193,9 @@
         bizTips: function () {
             // 时间线上面横幅广告
             ObjProxy.getByName("$CONFIG.uid", function (uid) {
-                ObjProxy.callByName("STK.core.util.cookie.set", ["tips_" + uid, "1", {"expire": 36500}]);
+                if (typeof uid !== "undefined") {
+                    ObjProxy.callByName("STK.core.util.cookie.set", ["tips_" + uid, "1", {"expire": 36500}]);
+                }
             });
             return "#pl_content_biztips {display: none !important;}";
         },
@@ -175,11 +204,6 @@
         }
     };
 
-    var script = document.createElement("script");
-    script.innerHTML = "(" + ObjProxy.delegateScript.toString() + ")('" + ObjProxy.MSG_NAME + "');";
-    document.getElementsByTagName("head")[0].appendChild(script);
-    script = null;
-    document.addEventListener("DOMContentLoaded", function() {
-        Cleaner.bizTips();
-    }, false);
+    ObjProxy.init();
+    Cleaner.bizTips();
 })(window);
