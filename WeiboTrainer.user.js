@@ -289,7 +289,7 @@
             });
             return ".profile_top .pf_head{top: 5px !important;}\
                   #pl_profile_cover {display: none !important;} \
-                  #plc_profile_header .profile_top {min-height: 234px} \
+                  #plc_profile_header .profile_top .pf_info_left_border {min-height: 234px} \
                   #pl_profile_hisInfo .pf_badge_icon li {display: inline-block; margin-top: 5px;}";
         },
         18: function () {
@@ -353,12 +353,12 @@
                     Box_right.insertBefore(WB_left_nav, pl_business_enterpriseWeiboNew);
                 }
             });
-            return ".W_main_l {display: none !important;}\
+            return ".B_index .W_main_l {display: none !important;}\
                   .WB_left_nav .lev a:hover, .WB_left_nav .lev2 a:hover, .WB_left_nav .lev2 a.lev_curr,\
                   .WB_left_nav .lev2 a.lev_curr:hover, .WB_left_nav .lev2_new a:hover, .WB_left_nav\
                   .lev2_new a.lev_curr, .WB_left_nav .lev2_new a.lev_curr:hover {background-image: none !important;}\
-                  .W_main {width: 830px !important; background-position-x: -150px;} \
-                  a.W_gotop {margin-left: 415px !important;}"
+                  .B_index .W_main {width: 830px !important; background-position-x: -150px;} \
+                  .B_index a.W_gotop {margin-left: 415px !important;}"
         },
         31: function () {
             // 模板设置
@@ -366,8 +366,24 @@
         },
         32: function () {
             // 常用边栏固定
-            return ".WB_left_nav {position: fixed !important;} \
+            return ".B_index .WB_left_nav {position: fixed !important;} \
                   .B_index .W_main_r {position: fixed !important; margin-left: 600px;}"
+        },
+        33: function () {
+            // 微博达人图标
+            return ".WB_info .ico_club {display: none !important;}";
+        },
+        34: function () {
+            // 微博会员图标
+            return ".WB_info .ico_member {display: none !important;}";
+        },
+        35: function () {
+            // 微博女郎图标
+            return ".WB_info .ico_vlady {display: none !important;}";
+        },
+        36: function () {
+            // 微博认证图标
+            return ".WB_info .approve, .WB_info approve_co {display: none !important;}";
         }
     };
 
