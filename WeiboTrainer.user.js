@@ -68,6 +68,13 @@
                 (document.head || document.documentElement).appendChild(style);
             }
             style.innerHTML = css;
+        },
+        trigger: function (node, type) {
+            if (!!node) {
+                var event = document.createEvent("Event");
+                event.initEvent(type, true, true);
+                node.dispatchEvent(event);
+            }
         }
     };
 
@@ -387,13 +394,23 @@
         },
         37: function () {
             // 时间线上面发微博框
-            return ".B_index .pl_content_publisherTop {display: none !important;}";
+            return "#pl_content_publisherTop {display: none !important;}";
         },
         38: function () {
             // 微博中地点签到周围的图片
             return ".WB_feed .WB_feed_spec {display: none !important;}";
         }
     };
+
+    var Behavior = {
+        0: function () {
+            // 始终发布到公开
+            Utils.trigger(document.querySelector("#pl_content_publisherTop a[node-type=showPublishTo]"), "click");
+            // TODO: wait div.layer_menu_list[node-type=publishTo]
+            Utils.trigger(document.querySelector("div.layer_menu_list a[suda-data*=edit_public]"), "click");
+        }
+    };
+    // TODO: use MutationObserver to observe page modification and provide callbackBySelector.
 
     ObjProxy.init();
     Utils.init();
