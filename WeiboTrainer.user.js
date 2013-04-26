@@ -384,6 +384,10 @@
         36: function () {
             // 微博认证图标
             return ".WB_info .approve, .WB_info approve_co {display: none !important;}";
+        },
+        37: function () {
+            // 时间线上面发微博框
+            return ".pl_content_publisherTop {display: none !important;}";
         }
     };
 
