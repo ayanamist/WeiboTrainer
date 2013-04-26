@@ -363,6 +363,11 @@
         31: function () {
             // 模板设置
             return "#pl_content_setSkin {display: none !important;}";
+        },
+        32: function () {
+            // 常用边栏固定
+            return ".WB_left_nav {position: fixed !important;} \
+                  .B_index .W_main_r {position: fixed !important; margin-left: 600px;}"
         }
     };
 
