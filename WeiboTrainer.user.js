@@ -4,6 +4,7 @@
 // @author ayanamist
 // @description Modify sina weibo web page.
 // @match http://weibo.com/*
+// @match http://www.weibo.com/*
 // @match http://account.weibo.com/*
 // @version 1.0
 // @run-at document-start
@@ -29,6 +30,7 @@
                     Array.prototype.forEach.call(Utils._deferQueue, function (func) {
                         func();
                     });
+                    Utils._deferQueue = [];
                 },
                 listener = document.addEventListener("DOMContentLoaded", finishQueue, false);
 
@@ -199,7 +201,7 @@
             }, callback);
         }
     };
-    var Cleaner = {
+    var UI = {
         0: function () {
             // 可能感兴趣的人
             return "#trustPagelet_recom_interestv5 {display: none !important;}";
@@ -293,6 +295,44 @@
         18: function () {
             // 用户页面 勋章
             return ".pf_badge_icon {display: none !important;}";
+        },
+        19: function() {
+            // 单条微博 推荐微博
+            return "#pl_rightmod_recommblog {display: none !important;}";
+        },
+        20: function() {
+            // 单条微博 推荐音乐
+            return "#trustPagelet_mblog_music {display: none !important;}";
+        },
+        21: function() {
+            // 单条微博 推荐图片
+            return "#trustPagelet_mblog_photo {display: none !important;}";
+        },
+        22: function() {
+            // 单条微博 推荐微吧
+            return "#trustPagelet_mblog_weiba {display: none !important;}";
+        },
+        23: function() {
+            // 单条微博 推荐微刊
+            return "#trustPagelet_mblog_weikan {display: none !important;}";
+        },
+        24: function() {
+            // 单条微博 热门微博
+            return "#trustPagelet_mblog_hotmblog {display: none !important;}";
+        },
+        25: function() {
+            // 单条微博 微博相关人
+            return "#pl_rightmod_recomperson {display: none !important;}";
+        },
+        26: function() {
+            // 单条微博 推荐话题
+            return "#trustPagelet_mblog_topic {display: none !important;}";
+        },
+        27: function() {
+            // 单条微博 整个右边栏
+            return ".B_onefeed .WB_feed .feed_repeat .input textarea {width: 99% !important}\
+                  .W_main_c {width: auto !important;} \
+                  .B_onefeed .W_main_2r {display: none !important;}";
         }
     };
 
@@ -301,8 +341,8 @@
 
     var cssList = [],
         styleName = Utils.makeRandomStr(8);
-    Array.prototype.forEach.call(Object.keys(Cleaner), function(k) {
-        cssList.push(Cleaner[k]());
+    Array.prototype.forEach.call(Object.keys(UI), function(k) {
+        cssList.push(UI[k]());
     });
     Utils.addNamedStyle(cssList.join(""), styleName);
 
