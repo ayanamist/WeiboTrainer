@@ -364,7 +364,7 @@
                   .WB_left_nav .lev a:hover, .WB_left_nav .lev2 a:hover, .WB_left_nav .lev2 a.lev_curr,\
                   .WB_left_nav .lev2 a.lev_curr:hover, .WB_left_nav .lev2_new a:hover, .WB_left_nav\
                   .lev2_new a.lev_curr, .WB_left_nav .lev2_new a.lev_curr:hover {background-image: none !important;}\
-                  .B_index .W_main {width: 830px !important; background-position-x: -150px;} \
+                  .B_index .W_main {width: 830px !important; background-position: -150px 0;} \
                   .B_index a.W_gotop {margin-left: 415px !important;}"
         },
         31: function () {
