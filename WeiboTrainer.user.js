@@ -289,6 +289,7 @@
             });
             return ".profile_top .pf_head{top: 5px !important;}\
                   #pl_profile_cover {display: none !important;} \
+                  #plc_profile_header .profile_top .pf_info_left, \
                   #plc_profile_header .profile_top .pf_info_left_border {min-height: 234px} \
                   #pl_profile_hisInfo .pf_badge_icon li {display: inline-block; margin-top: 5px;}";
         },
@@ -330,14 +331,13 @@
         },
         27: function () {
             // 单条微博 整个右边栏
-            return ".B_onefeed .WB_feed .feed_repeat .input textarea {width: 99% !important}\
-                  .B_onefeed .W_main_c {width: auto !important;} \
+            return ".B_onefeed .W_main_c, .B_onefeed .WB_feed textarea {width: 99% !important}\
                   .B_onefeed .W_main_2r {display: none !important;}";
         },
         28: function () {
             // 用户页面 整个右边栏
-            return ".W_profile_main .W_main_c {width: auto !important;} \
-                  .W_profile_main .W_main_2r {display: none !important;}";
+            return ".B_profile .W_profile_main .W_main_c {width: auto !important;} \
+                  .B_profile .W_profile_main .W_main_2r {display: none !important;}";
         },
         29: function () {
             // 整个底部链接
@@ -383,11 +383,15 @@
         },
         36: function () {
             // 微博认证图标
-            return ".WB_info .approve, .WB_info approve_co {display: none !important;}";
+            return ".WB_info .approve, .WB_info .approve_co {display: none !important;}";
         },
         37: function () {
             // 时间线上面发微博框
-            return ".pl_content_publisherTop {display: none !important;}";
+            return ".B_index .pl_content_publisherTop {display: none !important;}";
+        },
+        38: function () {
+            // 微博中地点签到周围的图片
+            return ".WB_feed .WB_feed_spec {display: none !important;}";
         }
     };
 
