@@ -373,7 +373,7 @@
         },
         32: function () {
             // 常用边栏固定
-            return ".B_index .WB_left_nav {position: fixed !important;} \
+            return ".B_index .W_main_l .WB_left_nav {position: fixed !important;} \
                   .B_index .W_main_r {position: fixed !important; margin-left: 600px;}"
         },
         33: function () {
