@@ -1,0 +1,28 @@
+{
+    "name": "WeiboTrainer",
+    "version": "1.0",
+    "manifest_version": 2,
+    "description": "Modify sina weibo web page.",
+    "icons": {
+        "16": "images/16x16.png",
+        "48": "images/48x48.png"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "http://weibo.com/*",
+                "http://www.weibo.com/*",
+                "http://account.weibo.com/*"
+            ],
+            "js": [
+                "/WeiboTrainer.user.js"
+            ],
+            "run_at": "document_start"
+        }
+    ],
+    "permissions": [
+        "http://weibo.com/*",
+        "http://www.weibo.com/*",
+        "http://account.weibo.com/*"
+    ]
+}
