@@ -13,6 +13,7 @@
 // @grant GM_setValue
 // ==/UserScript==
 
+//noinspection ThisExpressionReferencesGlobalObjectJS
 (function (window) {
     var document = window.document,
         Array = window.Array,
@@ -106,7 +107,7 @@
     var ObjProxy = {
         MSG_NAME: "wbtr_" + Utils.makeRandomStr(8),
         _callbackNumPool: new NamePool("wbtrcb_"),
-        _delegateScript: function (msgName) {
+        _delegateScript: function (window, msgName) {
             document.addEventListener(msgName, function (evt) {
                 var objName = evt.detail.name,
                     callbackName = evt.detail.callbackName,
@@ -117,7 +118,7 @@
                     value = null,
                     error = null;
 
-                for (i = names[0] === "window" ? 1 : 0, tmpObj = window; i < names.length; i += 1) {
+                for (i = names[0] === "this" ? 1 : 0, tmpObj = window; i < names.length; i += 1) {
                     if (typeof tmpObj !== "undefined") {
                         tmpObj = tmpObj[names[i]];
                     }
@@ -188,7 +189,7 @@
         },
         init: function () {
             var script = document.createElement("script");
-            script.innerHTML = "(" + ObjProxy._delegateScript.toString() + ")('" + ObjProxy.MSG_NAME + "');";
+            script.innerHTML = "(" + ObjProxy._delegateScript.toString() + ")(this, '" + ObjProxy.MSG_NAME + "');";
             script.type = "text/javascript";
             (document.head || document.documentElement).appendChild(script);
             script = null;
@@ -208,6 +209,24 @@
             }, callback);
         }
     };
+
+    var DOMObserver = {
+        _registeredHandlers: {},
+        init: function () {
+            var MutationObserver = window.MutationObserver || window.WebKitMutationObserver,
+                observer = new MutationObserver(function (mutations) {
+                    mutations.forEach(function (mutation) {
+                        console.log(mutation.type);
+                    });
+                }),
+                config = {
+                    childList: true,
+                    subtree: true
+                };
+            observer.observe(document, config);
+        }
+    };
+
     var UI = {
         0: function () {
             // 可能感兴趣的人
@@ -352,15 +371,9 @@
         },
         30: function () {
             // 两栏
-            Utils.deferReady(function () {
-                var WB_left_nav = document.querySelector(".W_main_l .WB_left_nav"),
-                    Box_right = document.querySelector("#Box_right"),
-                    pl_business_enterpriseWeiboNew = document.querySelector("#pl_business_enterpriseWeiboNew");
-                if (WB_left_nav && Box_right && pl_business_enterpriseWeiboNew) {
-                    Box_right.insertBefore(WB_left_nav, pl_business_enterpriseWeiboNew);
-                }
-            });
-            return ".B_index .W_main_l {display: none !important;}\
+            return ".B_index .W_main_bg {position: relative;}\
+                  .B_index .W_main_l {position: absolute; right: 0; margin: 175px 0 0 0; width: 230px}\
+                  .B_index .WB_left_nav {width: 230px;}\
                   .WB_left_nav .lev a:hover, .WB_left_nav .lev2 a:hover, .WB_left_nav .lev2 a.lev_curr,\
                   .WB_left_nav .lev2 a.lev_curr:hover, .WB_left_nav .lev2_new a:hover, .WB_left_nav\
                   .lev2_new a.lev_curr, .WB_left_nav .lev2_new a.lev_curr:hover {background-image: none !important;}\
@@ -403,6 +416,10 @@
         39: function () {
             // 分组页面 建议加入该分组
             return "#pl_relation_recommendGroupMember {display: none !important;}";
+        },
+        40: function () {
+            // 时间线 推广
+            return ".WB_feed .WB_feed_type[feedtype=ad] {display: none !important;}";
         }
     };
 
@@ -412,12 +429,19 @@
             Utils.trigger(document.querySelector("#pl_content_publisherTop a[node-type=showPublishTo]"), "click");
             // TODO: wait div.layer_menu_list[node-type=publishTo]
             Utils.trigger(document.querySelector("div.layer_menu_list a[suda-data*=edit_public]"), "click");
+        },
+        1: function () {
+            // 无限滚动
+            ".WB_feed .W_loading";
+        },
+        2: function () {
+            // 根据“有 X 条新微博，点击查看”修改title
         }
     };
-    // TODO: use MutationObserver to observe page modification and provide callbackBySelector.
 
     ObjProxy.init();
     Utils.init();
+    DOMObserver.init();
 
     var cssList = [],
         styleName = Utils.makeRandomStr(8);
@@ -426,4 +450,4 @@
     });
     Utils.addNamedStyle(cssList.join(""), styleName);
 
-})(window);
+})(this);
