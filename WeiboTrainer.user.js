@@ -371,27 +371,28 @@
         },
         30: function () {
             // 两栏
-            return ".W_main_bg {position: relative;}\
-                  .W_main_l {position: absolute; right: 0; width: 230px !important;}\
-                  .B_index .W_main_l {margin: 175px 0 0 0;}\
-                  .WB_left_nav a.lev_curr {background-color: #e6e6e6 !important;}\
-                  .WB_left_nav {width: 230px !important;}\
-                  .WB_left_nav a:hover, .WB_left_nav a.lev_curr,\
-                  .WB_left_nav a.lev_curr:hover {background-image: none !important;}\
-                  .W_main {width: 830px !important; background-position: -150px 0;} \
-                  .W_main_bg {background-image: none; background-color: #FFF;\
-                  a.W_gotop {margin-left: 415px !important;}\
-                  .profile_tabbig {width: auto !important;}\
-                  .W_main_a {width: 600px !important; padding: 0 !important; margin: 0 !important;}\
+            return ".W_miniblog .W_main_bg {position: relative;}\
+                  .W_miniblog .W_main_l {position: absolute; right: 0; width: 230px !important;}\
+                  .B_index .W_miniblog .W_main_l {margin: 175px 0 0 0;}\
+                  .W_miniblog .WB_left_nav a.lev_curr {background-color: #e6e6e6 !important;}\
+                  .W_miniblog .WB_left_nav {width: 230px !important;}\
+                  .W_miniblog .WB_left_nav a:hover, .WB_left_nav a.lev_curr,\
+                  .W_miniblog .WB_left_nav a.lev_curr:hover {background-image: none !important;}\
+                  .W_miniblog .W_main {width: 830px !important; background-position: -150px 0;} \
+                  .W_miniblog a.W_gotop {margin-left: 415px !important;}\
+                  .W_miniblog .profile_tabbig {width: auto !important;}\
+                  .W_miniblog .profile_top .pf_info_left,\
+                  .W_miniblog .profile_top .pf_info_left_border {width: 400px !important;}\
+                  .W_miniblog .W_main_a {width: 600px !important; padding: 0 !important; margin: 0 !important;}\
                   .B_myfollow .W_main_a {padding: 0 !important;}\
                   .B_myfollow .W_follow_bg {padding: 20px 20px 50px !important;}\
                   .B_myfollow .mylistBox {width: 580px !important;}\
-                  .fixed_bar {width: 560px !important;}\
-                  .fixed_bar .bar_left {width: 400px; height: 27px;}\
-                  .fixed_bar .bar_left .chosen, .fixed_bar .bar_left .normal_link \
+                  .W_miniblog .fixed_bar {width: 560px !important;}\
+                  .W_miniblog .fixed_bar .bar_left {width: 400px; height: 27px;}\
+                  .W_miniblog .fixed_bar .bar_left .chosen, .fixed_bar .bar_left .normal_link \
                       {margin-top: 26px !important; float: right !important;}\
-                  .fixed_bar .bar_left .chosen {margin-right: -100px !important;}\
-                  .fixed_bar .bar_left .normal_link {margin-right: -150px !important;}\
+                  .W_miniblog .fixed_bar .bar_left .chosen {margin-right: -100px !important;}\
+                  .W_miniblog .fixed_bar .bar_left .normal_link {margin-right: -150px !important;}\
                   #pl_relation_fans {margin: 0 20px;}"
         },
         31: function () {
@@ -518,6 +519,6 @@
     Array.prototype.forEach.call(Object.keys(UI), function (k) {
         cssList.push(UI[k]());
     });
-    Utils.addNamedStyle(cssList.join(""), styleName);
+    Utils.addNamedStyle(cssList.join("\n"), styleName);
 
 })(this);
