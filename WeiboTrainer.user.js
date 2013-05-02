@@ -371,14 +371,15 @@
         },
         30: function () {
             // 两栏
-            return ".B_index .W_main_bg {position: relative;}\
-                  .B_index .W_main_l {position: absolute; right: 0; margin: 175px 0 0 0; width: 230px}\
-                  .B_index .WB_left_nav {width: 230px;}\
-                  .WB_left_nav .lev a:hover, .WB_left_nav .lev2 a:hover, .WB_left_nav .lev2 a.lev_curr,\
-                  .WB_left_nav .lev2 a.lev_curr:hover, .WB_left_nav .lev2_new a:hover, .WB_left_nav\
-                  .lev2_new a.lev_curr, .WB_left_nav .lev2_new a.lev_curr:hover {background-image: none !important;}\
-                  .B_index .W_main {width: 830px !important; background-position: -150px 0;} \
-                  .B_index a.W_gotop {margin-left: 415px !important;}"
+            return ".W_main_bg {position: relative;}\
+                  .W_main_l {position: absolute; right: 0; width: 230px !important;}\
+                  .B_index .W_main_l {margin: 175px 0 0 0;}\
+                  .WB_left_nav a.lev_curr {background-color: #e6e6e6 !important;}\
+                  .WB_left_nav {width: 230px !important;}\
+                  .WB_left_nav a:hover, .WB_left_nav a.lev_curr,\
+                  .WB_left_nav a.lev_curr:hover {background-image: none !important;}\
+                  .W_main {width: 830px !important; background-position: -150px 0;} \
+                  a.W_gotop {margin-left: 415px !important;}"
         },
         31: function () {
             // 模板设置
@@ -420,6 +421,54 @@
         40: function () {
             // 时间线 推广
             return ".WB_feed .WB_feed_type[feedtype=ad] {display: none !important;}";
+        },
+        41: function () {
+            // 收藏使用小帮助
+            return "#pl_rightmod_helpfav {display: none !important;}";
+        },
+        42: function () {
+            // 微博意见反馈
+            return "#pl_rightmod_feedback {display: none !important;}";
+        },
+        43: function () {
+            // 消息箱使用小帮助
+            return "#Pl_Rightmod_Helpbox {display: none !important;}";
+        },
+        44: function () {
+            // 微博桌面
+            return "#pl_rightmod_weibodesk {display: none !important;}";
+        },
+        45: function () {
+            // 发给我的使用小帮助
+            return "#pl_rightmod_helptome {display: none !important;}";
+        },
+        46: function () {
+            // @使用小帮助
+            return "#pl_rightmod_helpat {display: none !important;}";
+        },
+        47: function () {
+            // 评论使用小帮助
+            return "#pl_rightmod_helpcomment {display: none !important;}";
+        },
+        48: function () {
+            // 热评微博
+            return "#pl_content_commentTopNav {display: none !important;}";
+        },
+        49: function () {
+            // 微博举报处理中心
+            return "#pl_rightmod_reportentry, #pl_common_reportentry {display: none !important;}";
+        },
+        50: function () {
+            // 赞使用小帮助
+            return "#pl_rightmod_helplike {display: none !important;}";
+        },
+        51: function () {
+            // 私信使用小帮助
+            return "#Pl_Rightmod_Littlehelp {display: none !important;}";
+        },
+        52: function () {
+            // 留言箱使用小帮助
+            return "#Pl_Rightmod_Helpnotebox {display: none !important;}";
         }
     };
 
