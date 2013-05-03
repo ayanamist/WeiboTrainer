@@ -406,19 +406,19 @@
         },
         33: function () {
             // 微博达人图标
-            return ".WB_info .ico_club {display: none !important;}";
+            return ".WB_detail .ico_club {display: none !important;}";
         },
         34: function () {
             // 微博会员图标
-            return ".WB_info .ico_member {display: none !important;}";
+            return ".WB_detail .ico_member {display: none !important;}";
         },
         35: function () {
             // 微博女郎图标
-            return ".WB_info .ico_vlady {display: none !important;}";
+            return ".WB_detail .ico_vlady {display: none !important;}";
         },
         36: function () {
             // 微博认证图标
-            return ".WB_info .approve, .WB_info .approve_co {display: none !important;}";
+            return ".WB_detail .approve, .WB_detail .approve_co {display: none !important;}";
         },
         37: function () {
             // 时间线上面发微博框
@@ -491,6 +491,10 @@
         54: function () {
             // 邀请小帮助
             return "#pl_relation_prompt {display: none !important;}";
+        },
+        55: function () {
+            // 随手拍图标
+            return ".WB_detail .ico_pai {display: none !important;}";
         }
     };
 
